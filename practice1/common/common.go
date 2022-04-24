@@ -31,6 +31,13 @@ type City struct {
 	Country     *Country
 }
 
+type CountryEuroDiffusion struct {
+	CountryName string
+	NumberDays int
+}
+
+type TestCaseResults []CountryEuroDiffusion
+
 func (c *Country) InitCities() {
 	c.Cities = []*City{}
 	for x := c.Xl; x <= c.Xh; x++ {
