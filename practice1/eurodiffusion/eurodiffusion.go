@@ -111,7 +111,7 @@ func getAmountsToTransferAtTheBegginingOfTheDay(cities [][]*common.City, rows, c
 
 func transferAmountOfMoneyBetweenCities(cityFrom, cityTo *common.City, amounts map[*common.Country]int) {
 	if cityTo != nil {
-		for country, _ := range cityFrom.CoinsAmount {
+		for country := range cityFrom.CoinsAmount {
 			sumToTransfer := amounts[country]
 			if sumToTransfer > 0 {
 				cityFrom.CoinsAmount[country] -= sumToTransfer
