@@ -37,24 +37,25 @@ func CalculateEuroDiffusionForTestCase(countries common.CountryList) common.Test
 		for y := 0; y < countRows; y++ {
 			for x := 0; x < countCols; x++ {
 				city := citiesGrid[y][x]
-				if city != nil {
-					amountsToTransferCurrentCity := amountsToTransfer[y][x]
-					if x > 0 {
-						cityWest := citiesGrid[y][x-1]
-						transferAmountOfMoneyBetweenCities(city, cityWest, amountsToTransferCurrentCity)
-					}
-					if y > 0 {
-						citySouth := citiesGrid[y-1][x]
-						transferAmountOfMoneyBetweenCities(city, citySouth, amountsToTransferCurrentCity)
-					}
-					if x < countCols-1 {
-						cityEast := citiesGrid[y][x+1]
-						transferAmountOfMoneyBetweenCities(city, cityEast, amountsToTransferCurrentCity)
-					}
-					if y < countRows-1 {
-						cityNorth := citiesGrid[y+1][x]
-						transferAmountOfMoneyBetweenCities(city, cityNorth, amountsToTransferCurrentCity)
-					}
+				if city == nil {
+					continue
+				}
+				amountsToTransferCurrentCity := amountsToTransfer[y][x]
+				if x > 0 {
+					cityWest := citiesGrid[y][x-1]
+					transferAmountOfMoneyBetweenCities(city, cityWest, amountsToTransferCurrentCity)
+				}
+				if y > 0 {
+					citySouth := citiesGrid[y-1][x]
+					transferAmountOfMoneyBetweenCities(city, citySouth, amountsToTransferCurrentCity)
+				}
+				if x < countCols-1 {
+					cityEast := citiesGrid[y][x+1]
+					transferAmountOfMoneyBetweenCities(city, cityEast, amountsToTransferCurrentCity)
+				}
+				if y < countRows-1 {
+					cityNorth := citiesGrid[y+1][x]
+					transferAmountOfMoneyBetweenCities(city, cityNorth, amountsToTransferCurrentCity)
 				}
 			}
 		}
