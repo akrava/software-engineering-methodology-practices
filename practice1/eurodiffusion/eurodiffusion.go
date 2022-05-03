@@ -1,8 +1,6 @@
 package eurodiffusion
 
 import (
-	"math"
-
 	"github.com/akrava/software-engineering-methodology-practices/practice1/common"
 )
 
@@ -68,7 +66,7 @@ func getResultsForTestCase(countries common.CountryList) common.TestCaseResults 
 	for _, country := range countries {
 		countryEuroDiffusion := common.CountryEuroDiffusion{
 			CountryName: country.Name,
-			NumberDays: country.NumberDaysToBeCompleted,
+			NumberDays:  country.NumberDaysToBeCompleted,
 		}
 		testCaseResults = append(testCaseResults, countryEuroDiffusion)
 	}
@@ -122,10 +120,10 @@ func transferAmountOfMoneyBetweenCities(cityFrom, cityTo *common.City, amounts m
 }
 
 func getMinXlMinYlMaxYhMaxMh(countries common.CountryList) (int, int, int, int) {
-	minXl := math.MaxInt
-	minYl := math.MaxInt
-	maxYh := math.MinInt
-	maxXh := math.MinInt
+	minXl := common.MaxCoordValue
+	minYl := common.MaxCoordValue
+	maxYh := common.MinCoordValue
+	maxXh := common.MinCoordValue
 	for _, country := range countries {
 		if country.Xl < minXl {
 			minXl = country.Xl
