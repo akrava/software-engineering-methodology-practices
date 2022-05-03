@@ -16,7 +16,7 @@ type Country struct {
 	Xh                      int
 	Yh                      int
 	Cities                  []*City
-	IsCompleated            bool
+	IsCompleted            bool
 	NumberDaysToBeCompleted int
 }
 
