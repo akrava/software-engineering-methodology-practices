@@ -16,7 +16,7 @@ type Country struct {
 	Xh                      int
 	Yh                      int
 	Cities                  []*City
-	IsCompleted            bool
+	IsCompleted             bool
 	NumberDaysToBeCompleted int
 }
 
@@ -33,7 +33,7 @@ type City struct {
 
 type CountryEuroDiffusion struct {
 	CountryName string
-	NumberDays int
+	NumberDays  int
 }
 
 type TestCaseResults []CountryEuroDiffusion

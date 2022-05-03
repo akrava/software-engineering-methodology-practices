@@ -68,7 +68,7 @@ func getResultsForTestCase(countries common.CountryList) common.TestCaseResults 
 	for _, country := range countries {
 		countryEuroDiffusion := common.CountryEuroDiffusion{
 			CountryName: country.Name,
-			NumberDays: country.NumberDaysToBeCompleted,
+			NumberDays:  country.NumberDaysToBeCompleted,
 		}
 		testCaseResults = append(testCaseResults, countryEuroDiffusion)
 	}
