@@ -78,11 +78,11 @@ func getResultsForTestCase(countries common.CountryList) common.TestCaseResults 
 func checkIfAllCountriesAreFullAndSetCompletedOnesIfNeeded(countries common.CountryList, currentDay int) bool {
 	allCountriesAreFull := true
 	for _, country := range countries {
-		if !country.IsCompleated && country.IsFull(countries) {
-			country.IsCompleated = true
+		if !country.IsCompleted && country.IsFull(countries) {
+			country.IsCompleted = true
 			country.NumberDaysToBeCompleted = currentDay
 		}
-		if !country.IsCompleated {
+		if !country.IsCompleted {
 			allCountriesAreFull = false
 		}
 	}
