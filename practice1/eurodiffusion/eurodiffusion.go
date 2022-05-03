@@ -16,12 +16,10 @@ func CalculateEuroDiffusionForTestCase(countries common.CountryList) common.Test
 		citiesGrid[y] = make([]*common.City, countCols)
 	}
 	// put cities into grid
-	offsetX := minXl
-	offsetY := minYl
 	for _, country := range countries {
 		country.InitCities()
 		for _, city := range country.Cities {
-			citiesGrid[city.Y-offsetY][city.X-offsetX] = city
+			citiesGrid[city.Y-minYl][city.X-minXl] = city
 		}
 	}
 	// start euro diffusion
