@@ -1,5 +1,7 @@
 package common
 
+import "fmt"
+
 const (
 	MaxNumberOfCountries         = 20
 	MaxCountryNameLength         = 25
@@ -76,4 +78,34 @@ func (c *Country) IsFull(countries CountryList) bool {
 		}
 	}
 	return true
+}
+
+func VerifyAllCountriesAreNeighborhoodsAndNonOverlapping(countries CountryList) error {
+	for _, country := range countries {
+		if country.Xl > country.Xh || country.Yl > country.Yh {
+			return fmt.Errorf("country %s has got invalid coords", country.Name)
+		}
+		countryHasGotNeighborhoods := false
+		for _, anotherCountry := range countries {
+			if country == anotherCountry {
+				continue
+			}
+			if country.Xh < anotherCountry.Xl || country.Xl > anotherCountry.Xh ||
+				country.Yh < anotherCountry.Yl || country.Yl > anotherCountry.Yh {
+				if !countryHasGotNeighborhoods {
+					countryHasGotNeighborhoods =
+						((anotherCountry.Xl-country.Xh == 1 || country.Xl-anotherCountry.Xh == 1) &&
+							anotherCountry.Yl <= country.Yh && anotherCountry.Yh >= country.Yl) ||
+							((anotherCountry.Yl-country.Yh == 1 || country.Yl-anotherCountry.Yh == 1) &&
+								anotherCountry.Xl <= country.Xh && anotherCountry.Xh >= country.Xl)
+				}
+			} else {
+				return fmt.Errorf("country %s is overlapping with country %s", country.Name, anotherCountry.Name)
+			}
+		}
+		if !countryHasGotNeighborhoods && len(countries) > 1 {
+			return fmt.Errorf("country %s doesn't have got neighborhoods", country.Name)
+		}
+	}
+	return nil
 }
