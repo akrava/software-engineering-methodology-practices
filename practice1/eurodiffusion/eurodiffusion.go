@@ -5,7 +5,7 @@ import (
 )
 
 func CalculateEuroDiffusionForTestCase(countries common.CountryList) common.TestCaseResults {
-	minXl, minYl, maxYh, maxXh := getMinXlMinYlMaxYhMaxMh(countries)
+	minXl, minYl, maxYh, maxXh := getMinXlMinYlMaxYhMaxXhCoordsOfAllCountries(countries)
 	countRows := maxYh - minYl + 1
 	countCols := maxXh - minXl + 1
 	// initialize trimmed grid of cities
@@ -119,7 +119,7 @@ func transferAmountOfMoneyBetweenCities(cityFrom, cityTo *common.City, amounts m
 	}
 }
 
-func getMinXlMinYlMaxYhMaxMh(countries common.CountryList) (int, int, int, int) {
+func getMinXlMinYlMaxYhMaxXhCoordsOfAllCountries(countries common.CountryList) (int, int, int, int) {
 	minXl := common.MaxCoordValue
 	minYl := common.MaxCoordValue
 	maxYh := common.MinCoordValue
