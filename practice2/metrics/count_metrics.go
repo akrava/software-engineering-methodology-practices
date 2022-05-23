@@ -105,7 +105,10 @@ func (m *ModuleMetrics) countMetricsInRegularFile(path string) error {
 		return err
 	}
 	m.CommentsLOC += calculateCommentsLOC(parsedInfo)
-	m.LogicalLOC += calculateLogicalLOC(parsedInfo)
+	logicalMetrics := calculateLogicalMetrics(parsedInfo)
+	// log.Printf("%s - %#v\n", path, logicalMetrics)
+	m.LogicalLOC += logicalMetrics.CalculateLogicalLOC()
+	m.CyclomaticComplexity += logicalMetrics.CalculateCyclomaticComplexity()
 	return nil
 }
 
@@ -140,7 +143,7 @@ func calculateCommentsLOC(s *SourceFileInfo) int {
 	return commentsLOC
 }
 
-func calculateLogicalLOC(s *SourceFileInfo) int {
+func calculateLogicalMetrics(s *SourceFileInfo) *FileLogicalMetrics {
 	logicalMetrics := &FileLogicalMetrics{}
 	// node with position which present in map as key is not parsed. If value of this key is true, children are parsed,
 	// otherwise they are not parsed
@@ -148,7 +151,7 @@ func calculateLogicalLOC(s *SourceFileInfo) int {
 	ast.Inspect(s.AST, func(n ast.Node) bool {
 		return logicalMetrics.parseNode(n, skipNodesPosMap)
 	})
-	return logicalMetrics.CalculateLogicalLOC()
+	return logicalMetrics
 }
 
 func (m *FileLogicalMetrics) parseNode(n ast.Node, skipNodesPosMap map[token.Pos]bool) bool {
@@ -163,9 +166,11 @@ func (m *FileLogicalMetrics) parseNode(n ast.Node, skipNodesPosMap map[token.Pos
 	case *ast.IfStmt:
 		{
 			m.CountSelectStmt++
+			m.CountIfElse++
 			if cur.Else != nil {
 				if _, ok := cur.Else.(*ast.IfStmt); !ok {
 					m.CountSelectStmt++
+					// m.CountIfElse++
 					skipNodesPosMap[cur.Else.Pos()] = true
 				}
 			}
@@ -251,6 +256,13 @@ func (m *FileLogicalMetrics) parseNode(n ast.Node, skipNodesPosMap map[token.Pos
 		{
 			if _, ok := cur.X.(*ast.CallExpr); !ok {
 				m.CountGeneralStmt++
+			}
+		}
+	// cyclomatic complexity
+	case *ast.CaseClause:
+		{
+			if cur.List != nil {
+				m.CountCases++
 			}
 		}
 	}
