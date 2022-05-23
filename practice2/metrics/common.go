@@ -25,6 +25,7 @@ type ModuleMetrics struct {
 	LogicalLOC             int
 	CommentsLOC            int
 	CommentSaturationLevel float64
+	CyclomaticComplexity   int
 }
 
 type FileLogicalMetrics struct {
@@ -35,6 +36,8 @@ type FileLogicalMetrics struct {
 	CountGeneralStmt int
 	CountBlockStmt   int
 	CountDataDecl    int
+	CountIfElse      int
+	CountCases       int
 }
 
 type SourceFileInfo struct {
@@ -75,12 +78,19 @@ func (m *ModuleMetrics) String() string {
 	sb.WriteString("Comment saturation level: \t")
 	sb.WriteString(fmt.Sprintf("%f", m.CommentSaturationLevel))
 	sb.WriteString("\n")
+	sb.WriteString("Cyclomatic complexity: \t\t")
+	sb.WriteString(strconv.Itoa(m.CyclomaticComplexity))
+	sb.WriteString("\n")
 	return sb.String()
 }
 
 func (m *FileLogicalMetrics) CalculateLogicalLOC() int {
 	return m.CountSelectStmt + m.CountIterStmt + m.CountJumpStmt + m.CountExprStmt + m.CountGeneralStmt +
 		m.CountBlockStmt + m.CountDataDecl
+}
+
+func (m *FileLogicalMetrics) CalculateCyclomaticComplexity() int {
+	return 1 + m.CountIfElse + m.CountCases
 }
 
 func GetSourceFileExtensions() []string {
